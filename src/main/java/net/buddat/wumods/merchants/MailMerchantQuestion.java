@@ -13,6 +13,7 @@ import com.wurmonline.server.items.Trade;
 import com.wurmonline.server.questions.Question;
 import com.wurmonline.server.utils.BMLBuilder;
 import com.wurmonline.server.utils.BMLBuilder.TextType;
+import com.wurmonline.server.villages.Village;
 import com.wurmonline.server.zones.VolaTile;
 import com.wurmonline.server.zones.Zones;
 
@@ -122,8 +123,14 @@ public class MailMerchantQuestion implements ModQuestion
 		ArrayList<Creature> allMerchants = MailMerchantHooks.getMerchantList();
 		for (Creature c : allMerchants)
 		{
-			VolaTile t = Zones.getTileOrNull(c.getTileX(), c.getTileY(), c.isOnSurface());
+			Village v = c.getCurrentVillage();
+			if (v != null && v.isPermanent)
+			{
+				merchants.add(c);
+				continue;
+			}
 			
+			VolaTile t = Zones.getTileOrNull(c.getTileX(), c.getTileY(), c.isOnSurface());
 			if (t == null || t.getItems().length == 0)
 				continue;
 			for (Item i : t.getItems())
