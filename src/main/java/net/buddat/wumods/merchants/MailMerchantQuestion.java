@@ -103,6 +103,8 @@ public class MailMerchantQuestion implements ModQuestion
 			{
 				if (addedTypes.contains(i.getTemplateId()))
 					continue;
+				if (i.isCoin())
+					continue;
 				if (previewText.isEmpty() == false)
 					previewText += ", ";
 				previewText += i.getTemplate().getName();
